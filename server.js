@@ -31,28 +31,37 @@ app.get('/api/v1/characters/:characterID', (req, res) => {
             character = currentCharacter
         }
     }
-    if (character === null) {
-        res.status(404).json({ error: 'could not find character with id: ' + characterId })
-    }
-    res.json(character)
+    if (character) return res.json(character)
+    res.status(404).json({ error: 'could not find character with id: ' + characterId })
 });
 
 app.get('/api/v1/episodes/:seasonNum', (req, res) => {
     const seasonNum = req.params.seasonNum
     let season = null
     for (i = 0; i < data.episodes.length; i++) {
-        // console.log(data.episodes[i].episodes)
         if (data.episodes[i].season == seasonNum) {
             season = data.episodes[i].episodes
 
-            console.log(season)
         }
     }
-    if (season === null) {
-        res.status(404).json({ error: 'could not find season: ' + seasonNum });
-    }
-    res.json(season)
+    if (season) return res.json(season)
+    res.status(404).json({ error: 'could not find season: ' + seasonNum });
 })
+//season and episode id
+// app.get('/api/v1/episodes/:seasonNum/:episodeNum', (req, res) => {
+//     const seasonNum = req.params.seasonNum
+//     const episodeNum = req.params.episodeNum
+//     let season = null
+//     let episode = null
+//     for (i = 0; i < data.episodes.length; i++) {
+//         if (data.episodes[i].season == seasonNum && data.episodes[i].season) {
+//             season = data.episodes[i].episodes
+
+//         }
+//     }
+//     if (season) return res.json(season)
+//     res.status(404).json({ error: 'could not find season: ' + seasonNum });
+// })
 
 //catch any missing pages
 app.get('*', (req, res) => {
